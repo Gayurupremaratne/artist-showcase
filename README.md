@@ -1,3 +1,7 @@
+# Hosted Application
+
+https://artist-showcase-react-h1wgmy6rv-gayuru-premaratnes-projects.vercel.app/
+
 # Artist Showcase
 
 A modern, elegant web application for showcasing albums, songs, and artists with a beautiful UI built with React, TypeScript, Chakra UI, and Zustand.
