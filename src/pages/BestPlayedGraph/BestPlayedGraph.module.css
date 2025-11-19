@@ -1,0 +1,112 @@
+.page {
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.searchSection {
+  margin-bottom: 1.5rem;
+}
+
+.searchLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.albumsSection {
+  margin-bottom: 1.5rem;
+}
+
+.albumsLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.albumCardWrapper {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.albumCardWrapper:hover {
+  opacity: 1;
+}
+
+.albumCardWrapperSelected {
+  opacity: 1;
+}
+
+.albumCardWrapperUnselected {
+  opacity: 0.7;
+}
+
+.chartSection {
+  margin-top: 1.5rem;
+}
+
+.chartTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.chartContainer {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  min-height: 450px;
+  height: 450px;
+}
+
+.noData {
+  color: #718096;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.emptyStateText {
+  font-size: 1.125rem;
+  color: #718096;
+}

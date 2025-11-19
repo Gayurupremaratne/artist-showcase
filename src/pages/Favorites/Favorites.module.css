@@ -1,0 +1,35 @@
+.page {
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.searchContainer {
+  margin-bottom: 1.5rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.emptyStateText {
+  font-size: 1.125rem;
+  color: #718096;
+}
+
+.count {
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.songsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

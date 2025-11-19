@@ -1,0 +1,70 @@
+.page {
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.searchContainer {
+  margin-bottom: 2rem;
+}
+
+.tabs {
+  width: 100%;
+}
+
+.tabList {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabPanel {
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.emptyStateText {
+  font-size: 1.125rem;
+  color: #718096;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.songsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.noResults {
+  color: #718096;
+}

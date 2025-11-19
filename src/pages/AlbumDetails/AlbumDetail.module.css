@@ -1,0 +1,110 @@
+.page {
+  width: 100%;
+}
+
+.backButton {
+  margin-bottom: 1.5rem;
+}
+
+.albumHeader {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.albumImage {
+  width: 100%;
+  max-width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.albumInfo {
+  flex: 1;
+  min-width: 300px;
+}
+
+.albumTitle {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.artistName {
+  font-size: 1.25rem;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badgeBlue {
+  background-color: #3182ce;
+  color: white;
+}
+
+.badgeGreen {
+  background-color: #38a169;
+  color: white;
+}
+
+.tracksSection {
+  margin-top: 2rem;
+}
+
+.tracksTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chartSection {
+  margin-top: 2rem;
+}
+
+.chartTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.chartContainer {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  min-height: 450px;
+  height: 450px;
+}
+
+.noData {
+  color: #718096;
+  text-align: center;
+  padding: 2rem 0;
+}
