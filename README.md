@@ -1,6 +1,6 @@
 # Hosted Application
 
-https://artist-showcase-react-h1wgmy6rv-gayuru-premaratnes-projects.vercel.app/
+https://artist-showcase-react-axnmw89az-gayuru-premaratnes-projects.vercel.app
 
 # Artist Showcase
 
