@@ -1,4 +1,5 @@
-import styles from './Pagination.module.css';
+import { Box, Button, Text } from '@chakra-ui/react';
+import { paginationStyles } from './Pagination.styles';
 
 interface PaginationProps {
   currentPage: number;
@@ -11,16 +12,16 @@ interface PaginationProps {
 
 export const Pagination = ({ currentPage, totalPages, total, loading, onPrevious, onNext }: PaginationProps) => {
   return (
-    <div className={styles.pagination}>
-      <button className={styles.paginationButton} onClick={onPrevious} disabled={currentPage === 1 || loading}>
+    <Box sx={paginationStyles.pagination}>
+      <Button sx={paginationStyles.button} onClick={onPrevious} disabled={currentPage === 1 || loading}>
         Previous
-      </button>
-      <span className={styles.paginationInfo}>
+      </Button>
+      <Text sx={paginationStyles.info}>
         Page {currentPage} of {totalPages} ({total} total albums)
-      </span>
-      <button className={styles.paginationButton} onClick={onNext} disabled={currentPage === totalPages || loading}>
+      </Text>
+      <Button sx={paginationStyles.button} onClick={onNext} disabled={currentPage === totalPages || loading}>
         Next
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };

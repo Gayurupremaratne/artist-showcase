@@ -1,8 +1,8 @@
-import { Container } from '@chakra-ui/react';
+import { Container, Box } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { memo } from 'react';
 import logo from '../../assets/logo.png';
-import styles from './Layout.module.css';
+import { layoutStyles } from './Layout.styles';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,31 +19,38 @@ export const Layout = memo(({ children }: LayoutProps) => {
   const location = useLocation();
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.header}>
+    <Box sx={layoutStyles.layout}>
+      <Box sx={layoutStyles.header}>
         <Container maxW="container.xl">
-          <div className={styles.headerContent}>
-            <RouterLink to="/" className={styles.logoLink}>
-              <img src={logo} alt="Artist Showcase" className={styles.logo} />
-            </RouterLink>
-            <nav className={styles.nav}>
+          <Box sx={layoutStyles.headerContent}>
+            <Box as={RouterLink} to="/" sx={layoutStyles.logoLink}>
+              <img src={logo} alt="Artist Showcase" style={layoutStyles.logo} />
+            </Box>
+            <Box as="nav" sx={layoutStyles.nav}>
               {navItems.map((item) => (
-                <RouterLink
+                <Box
                   key={item.path}
+                  as={RouterLink}
                   to={item.path}
-                  className={`${styles.navLink} ${location.pathname === item.path ? styles.navLinkActive : ''}`}
+                  sx={{
+                    ...layoutStyles.navLink,
+                    ...(location.pathname === item.path ? layoutStyles.navLinkActive : {}),
+                    '@media (min-width: 768px)': {
+                      fontSize: '1rem'
+                    }
+                  }}
                 >
                   {item.label}
-                </RouterLink>
+                </Box>
               ))}
-            </nav>
-          </div>
+            </Box>
+          </Box>
         </Container>
-      </div>
-      <Container maxW="container.xl" className={styles.container}>
+      </Box>
+      <Container maxW="container.xl" sx={layoutStyles.container}>
         {children}
       </Container>
-    </div>
+    </Box>
   );
 });
 

@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Button, Image } from '@chakra-ui/react';
+import { Button, Image, Box, Heading, Text, Badge } from '@chakra-ui/react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { albumsApi } from '../../api/albums';
 import { SongCard, LoadingSpinner, ErrorMessage } from '../../components';
 import type { AlbumDetail as AlbumDetailType } from '../../types';
-import styles from './AlbumDetail.module.css';
+import { albumDetailStyles } from './AlbumDetail.styles';
 import { v4 as uuidv4 } from 'uuid';
 
 export const AlbumDetail = () => {
@@ -87,33 +87,35 @@ export const AlbumDetail = () => {
   }
 
   return (
-    <div className={styles.page}>
-      <Button leftIcon={<FaArrowLeft />} variant="ghost" className={styles.backButton} onClick={() => navigate(-1)}>
+    <Box sx={albumDetailStyles.page}>
+      <Button leftIcon={<FaArrowLeft />} variant="ghost" sx={albumDetailStyles.backButton} onClick={() => navigate(-1)}>
         Back
       </Button>
 
-      <div className={styles.albumHeader}>
+      <Box sx={albumDetailStyles.albumHeader}>
         <Image
           src={album.cover}
           alt={album.name}
-          className={styles.albumImage}
+          sx={albumDetailStyles.albumImage}
           fallbackSrc="https://via.placeholder.com/300?text=No+Image"
         />
 
-        <div className={styles.albumInfo}>
-          <h1 className={styles.albumTitle}>{album.name}</h1>
-          <p className={styles.artistName}>{album.artistName}</p>
-          <div className={styles.badges}>
-            <span className={`${styles.badge} ${styles.badgeBlue}`}>{album.year}</span>
-            {album.playCount !== undefined && <span className={`${styles.badge} ${styles.badgeGreen}`}>{album.playCount} plays</span>}
-          </div>
-        </div>
-      </div>
+        <Box sx={albumDetailStyles.albumInfo}>
+          <Heading sx={albumDetailStyles.albumTitle}>{album.name}</Heading>
+          <Text sx={albumDetailStyles.artistName}>{album.artistName}</Text>
+          <Box sx={albumDetailStyles.badges}>
+            <Badge sx={{ ...albumDetailStyles.badge, ...albumDetailStyles.badgeBlue }}>{album.year}</Badge>
+            {album.playCount !== undefined && (
+              <Badge sx={{ ...albumDetailStyles.badge, ...albumDetailStyles.badgeGreen }}>{album.playCount} plays</Badge>
+            )}
+          </Box>
+        </Box>
+      </Box>
 
       {fromGraph && chartData.length > 0 && (
-        <div className={styles.chartSection}>
-          <h2 className={styles.chartTitle}>{album.name} - Play Count</h2>
-          <div className={styles.chartContainer}>
+        <Box sx={albumDetailStyles.chartSection}>
+          <Heading sx={albumDetailStyles.chartTitle}>{album.name} - Play Count</Heading>
+          <Box sx={albumDetailStyles.chartContainer}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 100 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -130,24 +132,24 @@ export const AlbumDetail = () => {
                 <Bar dataKey="plays" fill="#3182ce" name="Plays" />
               </BarChart>
             </ResponsiveContainer>
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
 
       {fromGraph && chartData.length === 0 && (
-        <div className={styles.chartSection}>
-          <p className={styles.noData}>No play count data available for this album</p>
-        </div>
+        <Box sx={albumDetailStyles.chartSection}>
+          <Text sx={albumDetailStyles.noData}>No play count data available for this album</Text>
+        </Box>
       )}
 
-      <div className={styles.tracksSection}>
-        <h2 className={styles.tracksTitle}>Track List ({album.songs.length})</h2>
-        <div className={styles.tracksList}>
+      <Box sx={albumDetailStyles.tracksSection}>
+        <Heading sx={albumDetailStyles.tracksTitle}>Track List ({album.songs.length})</Heading>
+        <Box sx={albumDetailStyles.tracksList}>
           {album.songs.map((song) => (
             <SongCard key={uuidv4()} song={song} showFavorite />
           ))}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };

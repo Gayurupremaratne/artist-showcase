@@ -1,7 +1,7 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { Input, InputGroup, InputLeftElement, Box } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 import { memo } from 'react';
-import styles from './SearchBar.module.css';
+import { searchBarStyles } from './SearchBar.styles';
 
 interface SearchBarProps {
   value: string;
@@ -18,10 +18,10 @@ export const SearchBar = memo(({ value, onChange, placeholder = 'Search songs or
   };
 
   return (
-    <div className={styles.searchContainer}>
+    <Box sx={searchBarStyles.container}>
       <InputGroup>
         <InputLeftElement pointerEvents="none">
-          <FaSearch className={styles.searchIcon} />
+          <FaSearch style={searchBarStyles.icon} />
         </InputLeftElement>
         <Input
           placeholder={placeholder}
@@ -29,10 +29,10 @@ export const SearchBar = memo(({ value, onChange, placeholder = 'Search songs or
           onChange={(e) => onChange(e.target.value)}
           onKeyPress={handleKeyPress}
           size="lg"
-          className={styles.searchInput}
+          sx={searchBarStyles.input}
         />
       </InputGroup>
-    </div>
+    </Box>
   );
 });
 

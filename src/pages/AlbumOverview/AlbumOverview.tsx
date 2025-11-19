@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import { albumsApi } from '../../api/albums';
 import { AlbumCard, LoadingSpinner, ErrorMessage, Pagination } from '../../components';
 import type { Album, SortOption } from '../../types';
-import styles from './AlbumOverview.module.css';
+import { albumOverviewStyles } from './AlbumOverview.styles';
 
 const ALBUMS_PER_PAGE = 10;
 const ARTIST_NAME = import.meta.env.VITE_ARTIST_NAME || 'Kendrick Lamar';
@@ -71,29 +72,36 @@ export const AlbumOverview = () => {
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>{ARTIST_NAME} Albums</h1>
-        <div className={styles.sortContainer}>
-          <span className={styles.sortLabel}>Sort by:</span>
-          <select className={styles.sortSelect} value={sortBy} onChange={(e) => setSortBy(e.target.value as SortOption)}>
+    <Box sx={albumOverviewStyles.page}>
+      <Box sx={albumOverviewStyles.header}>
+        <Heading sx={albumOverviewStyles.title}>{ARTIST_NAME} Albums</Heading>
+        <Box sx={albumOverviewStyles.sortContainer}>
+          <Text as="span" sx={albumOverviewStyles.sortLabel}>
+            Sort by:
+          </Text>
+          <Box
+            as="select"
+            sx={albumOverviewStyles.sortSelect}
+            value={sortBy}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value as SortOption)}
+          >
             <option value="name">Name</option>
             <option value="year">Year</option>
-          </select>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
 
       {sortedAlbums.length === 0 ? (
-        <div className={styles.emptyState}>
-          <p className={styles.emptyStateText}>No albums found</p>
-        </div>
+        <Box sx={albumOverviewStyles.emptyState}>
+          <Text sx={albumOverviewStyles.emptyStateText}>No albums found</Text>
+        </Box>
       ) : (
         <>
-          <div className={styles.grid}>
+          <Box sx={albumOverviewStyles.grid}>
             {sortedAlbums.map((album) => (
               <AlbumCard key={album.id} album={album} />
             ))}
-          </div>
+          </Box>
           {totalPages > 1 && (
             <Pagination
               currentPage={currentPage}
@@ -106,6 +114,6 @@ export const AlbumOverview = () => {
           )}
         </>
       )}
-    </div>
+    </Box>
   );
 };

@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Heading, Text } from '@chakra-ui/react';
 import { searchApi } from '../../api/search';
 import { AlbumCard, SongCard, SearchBar, LoadingSpinner, ErrorMessage } from '../../components';
 import type { SearchResult } from '../../types';
 import { useDebounce } from '../../hooks/useDebounce';
-import styles from './Search.module.css';
+import { searchStyles } from './Search.styles';
 
 export const Search = () => {
   const [query, setQuery] = useState('');
@@ -53,51 +53,51 @@ export const Search = () => {
   const hasResults = filteredResults && (filteredResults.albums.length > 0 || filteredResults.songs.length > 0);
 
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Search</h1>
+    <Box sx={searchStyles.page}>
+      <Heading sx={searchStyles.title}>Search</Heading>
 
-      <div className={styles.searchContainer}>
+      <Box sx={searchStyles.searchContainer}>
         <SearchBar value={query} onChange={setQuery} />
-      </div>
+      </Box>
 
       {loading && <LoadingSpinner message="Searching..." />}
 
       {error && <ErrorMessage message={error} />}
 
       {!loading && !error && query && !hasResults && (
-        <div className={styles.emptyState}>
-          <p className={styles.emptyStateText}>No results found for "{query}"</p>
-        </div>
+        <Box sx={searchStyles.emptyState}>
+          <Text sx={searchStyles.emptyStateText}>No results found for "{query}"</Text>
+        </Box>
       )}
 
       {!loading && !error && hasResults && filteredResults && (
-        <Tabs className={styles.tabs}>
-          <TabList className={styles.tabList}>
+        <Tabs sx={searchStyles.tabs}>
+          <TabList sx={searchStyles.tabList}>
             <Tab>Albums ({filteredResults.albums.length})</Tab>
             <Tab>Songs ({filteredResults.songs.length})</Tab>
           </TabList>
 
           <TabPanels>
-            <TabPanel className={styles.tabPanel}>
+            <TabPanel sx={searchStyles.tabPanel}>
               {filteredResults.albums.length > 0 ? (
-                <div className={styles.grid}>
+                <Box sx={searchStyles.grid}>
                   {filteredResults.albums.map((album) => (
                     <AlbumCard key={album.id} album={album} />
                   ))}
-                </div>
+                </Box>
               ) : (
-                <p className={styles.noResults}>No albums found</p>
+                <Text sx={searchStyles.noResults}>No albums found</Text>
               )}
             </TabPanel>
-            <TabPanel className={styles.tabPanel}>
+            <TabPanel sx={searchStyles.tabPanel}>
               {filteredResults.songs.length > 0 ? (
-                <div className={styles.songsList}>
+                <Box sx={searchStyles.songsList}>
                   {filteredResults.songs.map((song) => (
                     <SongCard key={song.id} song={song} showAlbum showFavorite />
                   ))}
-                </div>
+                </Box>
               ) : (
-                <p className={styles.noResults}>No songs found</p>
+                <Text sx={searchStyles.noResults}>No songs found</Text>
               )}
             </TabPanel>
           </TabPanels>
@@ -105,10 +105,10 @@ export const Search = () => {
       )}
 
       {!query && (
-        <div className={styles.emptyState}>
-          <p className={styles.emptyStateText}>Enter a search query to find albums and songs</p>
-        </div>
+        <Box sx={searchStyles.emptyState}>
+          <Text sx={searchStyles.emptyStateText}>Enter a search query to find albums and songs</Text>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };

@@ -1,8 +1,8 @@
-import { Image, Badge } from '@chakra-ui/react';
+import { Image, Badge, Box } from '@chakra-ui/react';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Album } from '../../types';
-import styles from './AlbumCard.module.css';
+import { albumCardStyles } from './AlbumCard.styles';
 
 interface AlbumCardProps {
   album: Album;
@@ -25,16 +25,18 @@ export const AlbumCard = memo(({ album, onClick: customOnClick }: AlbumCardProps
   };
 
   return (
-    <button className={styles.albumCard} onClick={handleClick}>
-      <Image src={album.cover} alt={album.name} className={styles.albumImage} fallbackSrc="https://via.placeholder.com/300?text=No+Image" />
-      <div className={styles.albumContent}>
-        <div className={styles.albumTitle}>{album.name}</div>
-        <div className={styles.albumInfo}>
-          <span className={styles.artistName}>{album.artistName}</span>
-          <Badge className={styles.yearBadge}>{album.year}</Badge>
-        </div>
-      </div>
-    </button>
+    <Box as="button" sx={albumCardStyles.card} onClick={handleClick}>
+      <Image src={album.cover} alt={album.name} sx={albumCardStyles.image} fallbackSrc="https://via.placeholder.com/300?text=No+Image" />
+      <Box sx={albumCardStyles.content}>
+        <Box sx={albumCardStyles.title}>{album.name}</Box>
+        <Box sx={albumCardStyles.info}>
+          <Box as="span" sx={albumCardStyles.artistName}>
+            {album.artistName}
+          </Box>
+          <Badge sx={albumCardStyles.yearBadge}>{album.year}</Badge>
+        </Box>
+      </Box>
+    </Box>
   );
 });
 

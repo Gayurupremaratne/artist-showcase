@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { albumsApi } from '../../api/albums';
 import { AlbumCard, SearchBar, LoadingSpinner, ErrorMessage, Pagination } from '../../components';
 import type { Album } from '../../types';
 import { useDebounce } from '../../hooks/useDebounce';
-import styles from './BestPlayedGraph.module.css';
+import { bestPlayedGraphStyles } from './BestPlayedGraph.styles';
 
 const ALBUMS_PER_PAGE = 10;
 const ARTIST_NAME = import.meta.env.VITE_ARTIST_NAME || 'Kendrick Lamar';
@@ -66,25 +67,25 @@ export const BestPlayedGraph = () => {
   }
 
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>{ARTIST_NAME} - Best Played Graph</h1>
+    <Box sx={bestPlayedGraphStyles.page}>
+      <Heading sx={bestPlayedGraphStyles.title}>{ARTIST_NAME} - Best Played Graph</Heading>
 
-      <div className={styles.section}>
-        <div className={styles.searchSection}>
-          <p className={styles.searchLabel}>Search for {ARTIST_NAME} Album</p>
+      <Box sx={bestPlayedGraphStyles.section}>
+        <Box sx={bestPlayedGraphStyles.searchSection}>
+          <Text sx={bestPlayedGraphStyles.searchLabel}>Search for {ARTIST_NAME} Album</Text>
           <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={`Search ${ARTIST_NAME} albums...`} />
-        </div>
+        </Box>
 
         {filteredAlbums.length > 0 && (
-          <div className={styles.albumsSection}>
-            <p className={styles.albumsLabel}>Select an Album</p>
-            <div className={styles.grid}>
+          <Box sx={bestPlayedGraphStyles.albumsSection}>
+            <Text sx={bestPlayedGraphStyles.albumsLabel}>Select an Album</Text>
+            <Box sx={bestPlayedGraphStyles.grid}>
               {filteredAlbums.map((album) => (
-                <div key={album.id} className={styles.albumCardWrapper}>
+                <Box key={album.id} sx={bestPlayedGraphStyles.albumCardWrapper}>
                   <AlbumCard album={album} onClick={() => handleAlbumSelect(album)} />
-                </div>
+                </Box>
               ))}
-            </div>
+            </Box>
             {totalPages > 1 && (
               <Pagination
                 currentPage={currentPage}
@@ -95,15 +96,15 @@ export const BestPlayedGraph = () => {
                 onNext={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               />
             )}
-          </div>
+          </Box>
         )}
 
         {filteredAlbums.length === 0 && !loading && (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyStateText}>No albums found. Select an album to view play count graph.</p>
-          </div>
+          <Box sx={bestPlayedGraphStyles.emptyState}>
+            <Text sx={bestPlayedGraphStyles.emptyStateText}>No albums found. Select an album to view play count graph.</Text>
+          </Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

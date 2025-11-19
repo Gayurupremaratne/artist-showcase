@@ -1,10 +1,10 @@
-import { IconButton } from '@chakra-ui/react';
+import { IconButton, Box } from '@chakra-ui/react';
 import { memo } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useFavoritesStore } from '../../store/favoritesStore';
 import type { Song } from '../../types';
-import styles from './SongCard.module.css';
+import { songCardStyles } from './SongCard.styles';
 
 interface SongCardProps {
   song: Song;
@@ -42,20 +42,20 @@ export const SongCard = memo(({ song, showAlbum = false, showFavorite = true, on
   };
 
   return (
-    <div className={styles.songCard}>
-      <div className={styles.songContent}>
-        <div className={styles.songInfo}>
-          <div className={styles.songTitle}>{song.title}</div>
+    <Box sx={songCardStyles.card}>
+      <Box sx={songCardStyles.content}>
+        <Box sx={songCardStyles.info}>
+          <Box sx={songCardStyles.title}>{song.title}</Box>
           {showAlbum && (
-            <span className={styles.albumLink} onClick={handleAlbumClick}>
+            <Box as="span" sx={songCardStyles.albumLink} onClick={handleAlbumClick}>
               {song.albumName}
-            </span>
+            </Box>
           )}
-          <div className={styles.songMeta}>
-            <span>{formatDuration(song.duration)}</span>
-            {song.playCount !== undefined && <span>Plays: {song.playCount}</span>}
-          </div>
-        </div>
+          <Box sx={songCardStyles.meta}>
+            <Box as="span">{formatDuration(song.duration)}</Box>
+            {song.playCount !== undefined && <Box as="span">Plays: {song.playCount}</Box>}
+          </Box>
+        </Box>
         {showFavorite && (
           <IconButton
             aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
@@ -64,11 +64,11 @@ export const SongCard = memo(({ song, showAlbum = false, showFavorite = true, on
             variant="ghost"
             onClick={handleFavoriteClick}
             size="sm"
-            className={styles.favoriteButton}
+            sx={songCardStyles.favoriteButton}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 });
 

@@ -1,5 +1,6 @@
+import { Box, Text } from '@chakra-ui/react';
 import { memo } from 'react';
-import styles from './LoadingSpinner.module.css';
+import { loadingSpinnerStyles } from './LoadingSpinner.styles';
 
 interface LoadingSpinnerProps {
   message?: string;
@@ -7,12 +8,12 @@ interface LoadingSpinnerProps {
 
 export const LoadingSpinner = memo(({ message = 'Loading...' }: LoadingSpinnerProps) => {
   return (
-    <div className={styles.spinnerContainer}>
-      <div className={styles.spinnerContent}>
-        <div className={styles.spinner}></div>
-        {message && <div className={styles.message}>{message}</div>}
-      </div>
-    </div>
+    <Box sx={loadingSpinnerStyles.container}>
+      <Box sx={loadingSpinnerStyles.content}>
+        <Box sx={loadingSpinnerStyles.spinner}></Box>
+        {message && <Text sx={loadingSpinnerStyles.message}>{message}</Text>}
+      </Box>
+    </Box>
   );
 });
 
