@@ -13,6 +13,8 @@ A modern, elegant web application for showcasing albums, songs, and artists with
 - Display all albums with cover art, name, and year
 - Sort albums by name or year
 - Responsive grid layout
+- Pagination support (10 albums per page)
+- Configurable artist via `VITE_ARTIST_NAME` environment variable
 
 ### 📀 Album Detail View
 
@@ -41,13 +43,24 @@ A modern, elegant web application for showcasing albums, songs, and artists with
 - Interactive bar chart showing play counts
 - Click albums to view their play statistics
 
+## Routing
+
+The application uses React Router for navigation with the following routes:
+
+- `/` - Album Overview page (default)
+- `/albums/:albumName/:artistName` - Album Detail page (dynamic route with URL-encoded album and artist names)
+- `/search` - Search page for albums and songs
+- `/favorites` - Favorites page displaying all favorited songs
+- `/graph` - Best Played Graph page with play statistics visualization
+
 ## Tech Stack
 
 - **React 19** - UI library
 - **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
+- **Vite (Rolldown)** - Build tool and dev server (using rolldown-vite for faster builds)
 - **Chakra UI** - Component library
 - **CSS Modules** - Component-scoped styling
+- **Chakra UI sx prop** - TypeScript-based styling with Chakra UI's style system
 - **Zustand** - State management
 - **Axios** - HTTP client
 - **React Router** - Routing
@@ -57,6 +70,8 @@ A modern, elegant web application for showcasing albums, songs, and artists with
 - **Testing Library** - React component testing utilities
 - **UUID** - Unique ID generation
 - **Husky** - Git hooks
+- **Emotion** - CSS-in-JS runtime (required by Chakra UI)
+- **Framer Motion** - Animation library (required by Chakra UI)
 
 ## Architecture
 
@@ -71,12 +86,12 @@ A modern, elegant web application for showcasing albums, songs, and artists with
 
 ### Key Features
 
-- ✅ **Hybrid Styling** - CSS Modules for component-scoped styles combined with Chakra UI
+- ✅ **Hybrid Styling** - CSS Modules for component-scoped styles combined with Chakra UI's `sx` prop and TypeScript style objects (`.styles.ts` files)
 - ✅ **TypeScript Mastery** - Full type safety throughout
 - ✅ **Clean Architecture** - Separation of concerns
 - ✅ **Reusable Components** - DRY principle with organized component folders
 - ✅ **Error Handling** - Comprehensive error boundaries and API error handling
-- ✅ **Environment Config** - Environment variables for API configuration
+- ✅ **Environment Config** - Environment variables for API configuration and artist selection
 - ✅ **Lazy Loading** - Code splitting for optimal performance
 - ✅ **Memoization** - React.memo and useMemo for performance
 - ✅ **Responsive Design** - Mobile-first responsive layout
@@ -88,7 +103,7 @@ A modern, elegant web application for showcasing albums, songs, and artists with
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+ and npm (or yarn)
 - Last.fm API key (get one at [last.fm/api](https://www.last.fm/api/))
 
 ### Installation
@@ -102,8 +117,16 @@ cd artist-showcase
 
 2. Install dependencies
 
+Using npm:
+
 ```bash
 npm install
+```
+
+Or using yarn:
+
+```bash
+yarn install
 ```
 
 3. Set up environment variables
@@ -112,11 +135,17 @@ npm install
 cp env.example .env
 ```
 
-Edit `.env` and set your Last.fm API key:
+Edit `.env` and configure the following variables:
 
 ```
+VITE_LASTFM_BASE_URL=https://ws.audioscrobbler.com/2.0/
 VITE_LASTFM_API_KEY=your_api_key_here
+VITE_ARTIST_NAME=Your Artist Name
 ```
+
+- `VITE_LASTFM_BASE_URL` - Last.fm API base URL (defaults to `https://ws.audioscrobbler.com/2.0/`)
+- `VITE_LASTFM_API_KEY` - Your Last.fm API key (required)
+- `VITE_ARTIST_NAME` - Default artist name to display albums for (defaults to "Kendrick Lamar" if not set)
 
 The application is pre-configured with a demo API key, but you should use your own for production.
 
@@ -188,10 +217,11 @@ The application transforms Last.fm API responses to match our internal data stru
 
 The Last.fm API is configured in `src/api/config.ts`:
 
-- Base URL: `https://ws.audioscrobbler.com/2.0/`
-- API key is read from environment variable `VITE_LASTFM_API_KEY`
+- Base URL: Read from environment variable `VITE_LASTFM_BASE_URL` (defaults to `https://ws.audioscrobbler.com/2.0/`)
+- API key: Read from environment variable `VITE_LASTFM_API_KEY`
 - All requests include `format=json` parameter
-- Error handling for Last.fm API error responses
+- Request timeout: 15 seconds
+- Error handling: Comprehensive interceptors for Last.fm API error responses and network errors
 
 ## Project Structure
 
@@ -204,89 +234,112 @@ src/
 │   ├── transformers.ts     # Last.fm API response transformers
 │   ├── albums.test.ts      # Album API tests
 │   └── search.test.ts      # Search API tests
+├── assets/                 # Static assets
+│   ├── logo.png            # Application logo
+│   └── react.svg            # React logo
 ├── components/             # Reusable UI components
 │   ├── AlbumCard/
 │   │   ├── AlbumCard.tsx
-│   │   └── AlbumCard.module.css
+│   │   ├── AlbumCard.module.css
+│   │   └── AlbumCard.styles.ts    # Chakra UI style objects
 │   ├── SongCard/
 │   │   ├── SongCard.tsx
-│   │   └── SongCard.module.css
+│   │   ├── SongCard.module.css
+│   │   └── SongCard.styles.ts
 │   ├── SearchBar/
 │   │   ├── SearchBar.tsx
-│   │   └── SearchBar.module.css
+│   │   ├── SearchBar.module.css
+│   │   └── SearchBar.styles.ts
 │   ├── LoadingSpinner/
 │   │   ├── LoadingSpinner.tsx
-│   │   └── LoadingSpinner.module.css
+│   │   ├── LoadingSpinner.module.css
+│   │   └── LoadingSpinner.styles.ts
 │   ├── ErrorMessage/
 │   │   ├── ErrorMessage.tsx
-│   │   └── ErrorMessage.module.css
+│   │   ├── ErrorMessage.module.css
+│   │   └── ErrorMessage.styles.ts
 │   ├── Layout/
 │   │   ├── Layout.tsx
-│   │   └── Layout.module.css
+│   │   ├── Layout.module.css
+│   │   └── Layout.styles.ts
 │   ├── Pagination/
 │   │   ├── Pagination.tsx
-│   │   └── Pagination.module.css
+│   │   ├── Pagination.module.css
+│   │   └── Pagination.styles.ts
 │   └── index.ts            # Component exports
 ├── hooks/                  # Custom React hooks
-│   └── useDebounce.ts
+│   └── useDebounce.ts      # Debounce hook for search
 ├── pages/                  # Page components
 │   ├── AlbumOverview/
 │   │   ├── AlbumOverview.tsx
-│   │   └── AlbumOverview.module.css
+│   │   ├── AlbumOverview.module.css
+│   │   └── AlbumOverview.styles.ts
 │   ├── AlbumDetails/
 │   │   ├── AlbumDetail.tsx
-│   │   └── AlbumDetail.module.css
+│   │   ├── AlbumDetail.module.css
+│   │   └── AlbumDetail.styles.ts
 │   ├── Search/
 │   │   ├── Search.tsx
-│   │   └── Search.module.css
+│   │   ├── Search.module.css
+│   │   └── Search.styles.ts
 │   ├── Favorites/
 │   │   ├── Favorites.tsx
-│   │   └── Favorites.module.css
+│   │   ├── Favorites.module.css
+│   │   └── Favorites.styles.ts
 │   ├── BestPlayedGraph/
 │   │   ├── BestPlayedGraph.tsx
-│   │   └── BestPlayedGraph.module.css
+│   │   ├── BestPlayedGraph.module.css
+│   │   └── BestPlayedGraph.styles.ts
 │   └── index.ts            # Page exports
 ├── store/                  # Zustand stores
-│   └── favoritesStore.ts
+│   └── favoritesStore.ts   # Favorites state management with persistence
 ├── test/                   # Test configuration
-│   └── setup.ts            # Vitest setup
+│   └── setup.ts            # Vitest setup with Testing Library
 ├── types/                  # TypeScript types
-│   └── index.ts
+│   └── index.ts            # Type definitions (Album, Song, Artist, etc.)
 ├── App.tsx                 # Main app component with routing
-└── main.tsx                # Entry point
+├── main.tsx                # Entry point
+├── index.css               # Global styles
+└── vite-env.d.ts           # Vite environment type definitions
 ```
 
 ## Development
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production (includes type checking)
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint errors automatically
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
-- `npm run test` - Run tests with Vitest
-- `npm run test:ui` - Run tests with Vitest UI
-- `npm run test:coverage` - Run tests with coverage report
+- `npm run dev` (or `yarn dev`) - Start development server
+- `npm run build` (or `yarn build`) - Build for production (includes type checking)
+- `npm run preview` (or `yarn preview`) - Preview production build
+- `npm run lint` (or `yarn lint`) - Run ESLint
+- `npm run lint:fix` (or `yarn lint:fix`) - Fix ESLint errors automatically
+- `npm run format` (or `yarn format`) - Format code with Prettier
+- `npm run format:check` (or `yarn format:check`) - Check code formatting
+- `npm run test` (or `yarn test`) - Run tests with Vitest
+- `npm run test:ui` (or `yarn test:ui`) - Run tests with Vitest UI
+- `npm run test:coverage` (or `yarn test:coverage`) - Run tests with coverage report
 
 ### Linting
 
 ```bash
 npm run lint
+# or
+yarn lint
 ```
 
 ### Formatting
 
 ```bash
 npm run format
+# or
+yarn format
 ```
 
 ### Testing
 
 ```bash
 npm run test
+# or
+yarn test
 ```
 
 The project uses Vitest for testing with Testing Library for React component tests. Test files are located alongside the code they test (e.g., `albums.test.ts` in the `api` directory).
@@ -295,9 +348,11 @@ The project uses Vitest for testing with Testing Library for React component tes
 
 ```bash
 npm run build
+# or
+yarn build
 ```
 
-Type checking is automatically performed during the build process.
+Type checking is automatically performed during the build process using TypeScript compiler (`tsc -b`).
 
 ## Features Implementation Details
 
@@ -317,6 +372,8 @@ Type checking is automatically performed during the build process.
 - Debounced search queries (custom useDebounce hook)
 - Code splitting with React.lazy
 - CSS Modules for optimized styling (scoped styles, no global conflicts)
+- Chakra UI sx prop for efficient style application
+- TypeScript style objects for type-safe styling
 
 ### Pagination
 
